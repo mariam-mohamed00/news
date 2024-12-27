@@ -4,8 +4,7 @@ import 'package:news_app/routing/app_router.dart';
 import 'package:news_app/routing/routes.dart';
 
 void main()  {
-
-  runApp( MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,8 +17,6 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.home,
       onGenerateRoute: AppRouter.generateRoute,
       theme: MyTheme.lightMode,
-      darkTheme: MyTheme.darkMode,
-      themeMode: ThemeMode.system,
     );
   }
 
