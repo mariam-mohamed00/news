@@ -1,24 +1,41 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:news_app/api/api_manager.dart';
+import 'package:news_app/model/category.dart';
 import 'package:news_app/model/source_response.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:news_app/tabs/tab_container.dart';
 
-class CategoryDetails extends StatelessWidget {
-  const CategoryDetails({super.key});
+class CategoryDetails extends StatefulWidget {
+  CategoryDetails({super.key, required this.category});
+  Category category;
 
+  @override
+  State<CategoryDetails> createState() => _CategoryDetailsState();
+}
+
+class _CategoryDetailsState extends State<CategoryDetails> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SourceResponse>(
-        future: ApiManager.getSources(),
+        future: ApiManager.getSources(widget.category.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return  Center(child: CircularProgressIndicator(color: MyTheme.greenColor,));
+            return Center(
+                child: CircularProgressIndicator(
+              color: MyTheme.greenColor,
+            ));
           } else if (snapshot.hasError) {
             return Column(
               children: [
                 Text('${snapshot.error}'),
-                ElevatedButton(onPressed: () {}, child: const Text('Try again'))
+                ElevatedButton(
+                    onPressed: () {
+                      ApiManager.getSources(widget.category.id);
+                      setState(() {});
+                    },
+                    child: const Text('Try again'))
               ],
             );
           }
@@ -27,7 +44,12 @@ class CategoryDetails extends StatelessWidget {
             return Column(
               children: [
                 Text('${snapshot.data?.message}'),
-                ElevatedButton(onPressed: () {}, child: const Text('Try again'))
+                ElevatedButton(
+                    onPressed: () {
+                      ApiManager.getSources(widget.category.id);
+                      setState(() {});
+                    },
+                    child: const Text('Try again'))
               ],
             );
           }

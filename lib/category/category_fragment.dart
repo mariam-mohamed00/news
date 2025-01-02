@@ -3,10 +3,19 @@ import 'package:news_app/category/category_item.dart';
 import 'package:news_app/model/category.dart';
 import 'package:news_app/my_theme.dart';
 
-class CategoryFragment extends StatelessWidget {
-  CategoryFragment({super.key});
+// ignore: must_be_immutable
+class CategoryFragment extends StatefulWidget {
+  CategoryFragment({super.key, required this.onCategoryClick});
 
+  Function onCategoryClick;
+
+  @override
+  State<CategoryFragment> createState() => _CategoryFragmentState();
+}
+
+class _CategoryFragmentState extends State<CategoryFragment> {
   var categoriesList = Category.getCategories();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,9 +40,15 @@ class CategoryFragment extends StatelessWidget {
               mainAxisSpacing: 12,
             ),
             itemBuilder: (context, index) {
-              return CategoryItem(
-                category: categoriesList[index],
-                index: index,
+              return InkWell(
+                onTap: () {
+                  widget.onCategoryClick(categoriesList[index]);
+                  setState(() {});
+                },
+                child: CategoryItem(
+                  category: categoriesList[index],
+                  index: index,
+                ),
               );
             },
           ),

@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/category/category_details.dart';
 import 'package:news_app/category/category_fragment.dart';
+import 'package:news_app/model/category.dart';
+import 'package:news_app/my_theme.dart';
+import 'package:news_app/screens/home_drawer.dart';
+import 'package:news_app/screens/settings.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -18,16 +28,46 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         Scaffold(
-          backgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
             appBar: AppBar(
-              automaticallyImplyLeading: false,
+              iconTheme: IconThemeData(color: MyTheme.whiteColor),
               title: Text(
-                'News App',
+                selectedDrawerItem == HomeDrawer.settings
+                    ? 'Settings'
+                    : selectedCategory == null
+                        ? 'News App'
+                        : selectedCategory!.title,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
-            body: CategoryFragment())
+            drawer: Drawer(
+              child: HomeDrawer(
+                onDrawerItemClick: onDrawerItemClick,
+              ),
+            ),
+            body: selectedDrawerItem == HomeDrawer.settings
+                ? const Settings()
+                : selectedCategory == null
+                    ? CategoryFragment(
+                        onCategoryClick: onCategoryClick,
+                      )
+                    : CategoryDetails(category: selectedCategory!)),
       ],
     );
+  }
+
+  Category? selectedCategory;
+
+  void onCategoryClick(Category newSelectedCategory) {
+    selectedCategory = newSelectedCategory;
+    setState(() {});
+  }
+
+  int selectedDrawerItem = HomeDrawer.categories;
+  void onDrawerItemClick(int newSelectedDrawerItem) {
+    selectedDrawerItem = newSelectedDrawerItem;
+    selectedCategory = null;
+    Navigator.pop(context);
+    setState(() {});
   }
 }
