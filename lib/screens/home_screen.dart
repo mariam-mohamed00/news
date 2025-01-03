@@ -5,6 +5,7 @@ import 'package:news_app/model/category.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:news_app/screens/home_drawer.dart';
 import 'package:news_app/screens/settings.dart';
+import 'package:news_app/search/news_search_delegate.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,6 +40,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         : selectedCategory!.title,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    size: 30,
+                    color: MyTheme.whiteColor,
+                  ),
+                  onPressed: () {
+                    showSearch(
+                      context: context, delegate: NewsSearchDelegate());
+                  },
+                ),
+              ],
             ),
             drawer: Drawer(
               child: HomeDrawer(

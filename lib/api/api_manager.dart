@@ -22,7 +22,23 @@ class ApiManager {
     //https://newsapi.org/v2/everything?q=bitcoin&apiKey=9c1f5339332a42c6a972b8d0dfae0615
 
     Uri url = Uri.https(ApiConstant.baseUrl, ApiConstant.newsApi,
-        {'sources': sourceId, 'apiKey': '9c1f5339332a42c6a972b8d0dfae0615'});
+        {'apiKey': '9c1f5339332a42c6a972b8d0dfae0615', 'sources': sourceId});
+
+    try {
+      var reponse = await http.get(url);
+      var json = jsonDecode(reponse.body);
+      return NewsResponse.fromJson(json);
+    } catch (e) {
+      // ignore: use_rethrow_when_possible
+      throw e;
+    }
+  }
+
+  static Future<NewsResponse> searchNews(String query) async {
+    //https://newsapi.org/v2/everything?q=bitcoin&apiKey=9c1f5339332a42c6a972b8d0dfae0615
+
+    Uri url = Uri.https(ApiConstant.baseUrl, ApiConstant.newsApi,
+        {'apiKey': '9c1f5339332a42c6a972b8d0dfae0615', 'q': query});
 
     try {
       var reponse = await http.get(url);
