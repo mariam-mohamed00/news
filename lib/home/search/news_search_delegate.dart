@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/api/api_manager.dart';
 import 'package:news_app/model/news_response.dart';
 import 'package:news_app/my_theme.dart';
-import 'package:news_app/news/news_item.dart';
+import 'package:news_app/home/news/news_item.dart';
 
 class NewsSearchDelegate extends SearchDelegate {
   @override

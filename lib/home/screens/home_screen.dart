@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/category/category_details.dart';
-import 'package:news_app/category/category_fragment.dart';
+import 'package:news_app/home/category/category_details.dart';
+import 'package:news_app/home/category/category_fragment.dart';
 import 'package:news_app/model/category.dart';
 import 'package:news_app/my_theme.dart';
-import 'package:news_app/screens/home_drawer.dart';
-import 'package:news_app/screens/settings.dart';
-import 'package:news_app/search/news_search_delegate.dart';
+import 'package:news_app/home/screens/home_drawer.dart';
+import 'package:news_app/home/screens/settings.dart';
+import 'package:news_app/home/search/news_search_delegate.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

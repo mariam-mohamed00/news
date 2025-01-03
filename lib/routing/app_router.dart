@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/news/news_details.dart';
+import 'package:news_app/home/news/news_details.dart';
 import 'package:news_app/routing/routes.dart';
 
-import '../screens/home_screen.dart';
+import '../home/screens/home_screen.dart';
 
 class AppRouter {
   static Route generateRoute(RouteSettings settings) {

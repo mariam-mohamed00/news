@@ -2,25 +2,24 @@
 
 import 'package:flutter/material.dart';
 import 'package:news_app/api/api_manager.dart';
-import 'package:news_app/model/news_response.dart';
+import 'package:news_app/model/category.dart';
 import 'package:news_app/model/source_response.dart';
 import 'package:news_app/my_theme.dart';
-import 'package:news_app/news/news_item.dart';
+import 'package:news_app/home/tabs/tab_container.dart';
 
-class NewsContainer extends StatefulWidget {
-  NewsContainer({super.key, required this.source});
-
-  Source source;
+class CategoryDetails extends StatefulWidget {
+  CategoryDetails({super.key, required this.category});
+  Category category;
 
   @override
-  State<NewsContainer> createState() => _NewsContainerState();
+  State<CategoryDetails> createState() => _CategoryDetailsState();
 }
 
-class _NewsContainerState extends State<NewsContainer> {
+class _CategoryDetailsState extends State<CategoryDetails> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<NewsResponse>(
-        future: ApiManager.getNewsBySourceId(widget.source.id ?? ''),
+    return FutureBuilder<SourceResponse>(
+        future: ApiManager.getSources(widget.category.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -33,10 +32,8 @@ class _NewsContainerState extends State<NewsContainer> {
                 Text('${snapshot.error}'),
                 ElevatedButton(
                     onPressed: () {
-                      ApiManager.getNewsBySourceId(widget.source.id ?? '');
-                  setState(() {
-                    
-                  });
+                      ApiManager.getSources(widget.category.id);
+                      setState(() {});
                     },
                     child: const Text('Try again'))
               ],
@@ -46,29 +43,20 @@ class _NewsContainerState extends State<NewsContainer> {
           if (snapshot.data?.status != 'ok') {
             return Column(
               children: [
-                Text(snapshot.data?.message ?? 'Failed to load news'),
+                Text('${snapshot.data?.message}'),
                 ElevatedButton(
                     onPressed: () {
-                      ApiManager.getNewsBySourceId(widget.source.id ?? '');
-                   setState(() {
-                     
-                   });
+                      ApiManager.getSources(widget.category.id);
+                      setState(() {});
                     },
                     child: const Text('Try again'))
               ],
             );
           }
 
-          var newsList = snapshot.data?.articlesList ?? [];
+          var list = snapshot.data?.sourcesList ?? [];
 
-          return 
-          ListView.builder(
-            itemCount: newsList.length,
-            itemBuilder: (context, index) {
-              return NewsItem(news: newsList[index]);
-            },
-          );
-        }
-        );
+          return TabContainer(sourceList: list);
+        });
   }
 }

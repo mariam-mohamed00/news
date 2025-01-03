@@ -25,7 +25,7 @@ class CategoryItem extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(category.image,
-                height: MediaQuery.of(context).size.height * 0.2),
+                height: MediaQuery.of(context).size.height * 0.17),
             Text(
               category.title,
               style: Theme.of(context)
