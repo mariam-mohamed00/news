@@ -1,21 +1,24 @@
-// ignore_for_file: must_be_immutable
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/model/news_response.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:news_app/my_theme.dart';
-import 'package:news_app/routing/routes.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class NewsItem extends StatelessWidget {
-  NewsItem({super.key, required this.news});
-  News news;
+class NewsDetails extends StatelessWidget {
+  const NewsDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Navigator.pushNamed(context, Routes.newDetails,
-          arguments: news),
-      child: Container(
+    var news = ModalRoute.of(context)!.settings.arguments as News;
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: MyTheme.whiteColor),
+        title: Text(
+          '${news.title!.substring(0, 10)}...',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
+      body: Container(
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.all(8),
         child: Column(
@@ -50,12 +53,19 @@ class NewsItem extends StatelessWidget {
             ),
             Text(
               news.title ?? '',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: MyTheme.textColor,
                   ),
             ),
             const SizedBox(
               height: 6,
+            ),
+            Text(news.content ?? '',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: MyTheme.textColor,
+                    )),
+            const SizedBox(
+              height: 12,
             ),
             Text(
               news.publishedat ?? '',
@@ -65,9 +75,34 @@ class NewsItem extends StatelessWidget {
                   fontWeight: FontWeight.w400),
               textAlign: TextAlign.end,
             ),
+            const Spacer(),
+            InkWell(
+              onTap: () {
+                _launchNewsUrl(news.url ?? '');
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text('View all article',
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            color: MyTheme.blackColor,
+                          )),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: MyTheme.blackColor,
+                    size: 18,
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _launchNewsUrl(String url) async {
+    var uri = Uri.parse(url);
+    await launchUrl(uri);
   }
 }

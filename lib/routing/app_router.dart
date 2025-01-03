@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/news/news_details.dart';
 import 'package:news_app/routing/routes.dart';
 
 import '../screens/home_screen.dart';
@@ -9,6 +10,9 @@ class AppRouter {
       case Routes.home:
         return MaterialPageRoute(
             builder: (context) => const HomeScreen(), settings: settings);
+      case Routes.newDetails:
+        return MaterialPageRoute(
+            builder: (context) =>  const NewsDetails(), settings: settings);
 
       default:
         return MaterialPageRoute(
