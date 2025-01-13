@@ -12,7 +12,7 @@ class AppRouter {
             builder: (context) => const HomeScreen(), settings: settings);
       case Routes.newDetails:
         return MaterialPageRoute(
-            builder: (context) =>  const NewsDetails(), settings: settings);
+            builder: (context) => const NewsDetails(), settings: settings);
 
       default:
         return MaterialPageRoute(

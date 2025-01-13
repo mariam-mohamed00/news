@@ -19,7 +19,7 @@ class HomeDrawer extends StatelessWidget {
           padding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height * 0.1),
           child: Text(
-            'News APP!',
+            'NEWS APP!',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleLarge,
           ),

@@ -18,7 +18,10 @@ class NewsDetails extends StatelessWidget {
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
-      body: Container(
+      body: Stack(
+        children: [
+          Image.asset('assets/images/pattern.png', fit: BoxFit.cover),
+          Container(
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.all(8),
         child: Column(
@@ -98,6 +101,8 @@ class NewsDetails extends StatelessWidget {
           ],
         ),
       ),
+        ],
+      )
     );
   }
 

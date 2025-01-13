@@ -27,7 +27,6 @@ class _NewsContainerState extends State<NewsContainer> {
     super.initState();
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
-        /// على الحافة في التوب او البوتوم
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
           shouldLoadNextPage = true;
