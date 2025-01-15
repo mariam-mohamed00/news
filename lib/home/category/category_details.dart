@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:news_app/api/api_manager.dart';
+import 'package:news_app/provider/language_provider.dart';
 import 'package:news_app/model/category.dart';
 import 'package:news_app/model/source_response.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:news_app/home/tabs/tab_container.dart';
+import 'package:provider/provider.dart';
 
 class CategoryDetails extends StatefulWidget {
   CategoryDetails({super.key, required this.category});
@@ -18,8 +20,9 @@ class CategoryDetails extends StatefulWidget {
 class _CategoryDetailsState extends State<CategoryDetails> {
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<LanguageProvider>(context);
     return FutureBuilder<SourceResponse>(
-        future: ApiManager.getSources(widget.category.id),
+        future: ApiManager.getSources(widget.category.id, provider.locale),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -32,7 +35,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                 Text('${snapshot.error}'),
                 ElevatedButton(
                     onPressed: () {
-                      ApiManager.getSources(widget.category.id);
+                      ApiManager.getSources(widget.category.id, provider.locale);
                       setState(() {});
                     },
                     child: const Text('Try again'))
@@ -46,7 +49,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                 Text('${snapshot.data?.message}'),
                 ElevatedButton(
                     onPressed: () {
-                      ApiManager.getSources(widget.category.id);
+                      ApiManager.getSources(widget.category.id, provider.locale);
                       setState(() {});
                     },
                     child: const Text('Try again'))

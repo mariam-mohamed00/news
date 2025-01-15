@@ -23,6 +23,7 @@ class CategoryItem extends StatelessWidget {
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(category.image,
                 height: MediaQuery.of(context).size.height * 0.17),

@@ -39,7 +39,11 @@ class _TabContainerState extends State<TabContainer> {
                         ))
                     .toList()),
             Expanded(
-                child: NewsContainer(source: widget.sourceList[selectedIndex])),
+                child: widget.sourceList.isNotEmpty
+                    ? NewsContainer(source: widget.sourceList[selectedIndex])
+                    : const Center(
+                        child: Text('No sources available'),
+                      )),
           ],
         ));
   }

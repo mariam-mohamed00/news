@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/home/category/category_details.dart';
 import 'package:news_app/home/category/category_fragment.dart';
+import 'package:news_app/home/screens/settings/settings.dart';
 import 'package:news_app/model/category.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:news_app/home/screens/home_drawer.dart';
-import 'package:news_app/home/screens/settings.dart';
 import 'package:news_app/home/search/news_search_delegate.dart';
+import 'package:news_app/provider/category_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onPressed: () {
                     showSearch(
-                      context: context, delegate: NewsSearchDelegate());
+                        context: context, delegate: NewsSearchDelegate());
                   },
                 ),
               ],
@@ -75,6 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void onCategoryClick(Category newSelectedCategory) {
     selectedCategory = newSelectedCategory;
     setState(() {});
+    Provider.of<CategoryProvider>(context, listen: false)
+        .setCategoryId(newSelectedCategory.id);
   }
 
   int selectedDrawerItem = HomeDrawer.categories;
