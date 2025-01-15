@@ -6,6 +6,8 @@ import 'package:news_app/model/news_response.dart';
 import 'package:news_app/model/source_response.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:news_app/home/news/news_item.dart';
+import 'package:news_app/provider/language_provider.dart';
+import 'package:provider/provider.dart';
 
 class NewsContainer extends StatefulWidget {
   NewsContainer({super.key, required this.source});
@@ -38,17 +40,25 @@ class _NewsContainerState extends State<NewsContainer> {
 
   @override
   Widget build(BuildContext context) {
+    var languageProvider = Provider.of<LanguageProvider>(context);
+
     if (shouldLoadNextPage) {
       ApiManager.getNewsBySourceId(
-              sourceId: widget.source.id ?? '', pageNumber: ++pageNumber)
+              sourceId: widget.source.id ?? '',
+              pageNumber: ++pageNumber,
+              language: languageProvider.locale)
           .then((value) {
         news.addAll(value.articlesList ?? []);
       });
       shouldLoadNextPage = false;
       setState(() {});
     }
+
     return FutureBuilder<NewsResponse>(
-        future: ApiManager.getNewsBySourceId(sourceId: widget.source.id ?? ''),
+        future: ApiManager.getNewsBySourceId(
+            sourceId: widget.source.id ?? '',
+            language: languageProvider.locale),
+            
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Column(
@@ -57,7 +67,8 @@ class _NewsContainerState extends State<NewsContainer> {
                 ElevatedButton(
                     onPressed: () {
                       ApiManager.getNewsBySourceId(
-                          sourceId: widget.source.id ?? '');
+                          sourceId: widget.source.id ?? '',
+                          language: languageProvider.locale);
                       setState(() {});
                     },
                     child: const Text('Try again'))
@@ -65,7 +76,7 @@ class _NewsContainerState extends State<NewsContainer> {
             );
           } else if (snapshot.hasData) {
             var newsList = snapshot.data?.articlesList ?? [];
-            if (news.isEmpty && newsList.isNotEmpty) { 
+            if (news.isEmpty && newsList.isNotEmpty) {
               news = newsList;
             } else if (newsList.isNotEmpty &&
                 news.first.title != newsList.first.title) {

@@ -10,7 +10,6 @@ class Settings extends StatefulWidget {
   const Settings({
     super.key,
   });
-  // String categoryId ;
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -21,7 +20,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     final categoryId = Provider.of<CategoryProvider>(context).categoryId;
 
-    var provider = Provider.of<LanguageProvider>(context);
+    var languageProvider = Provider.of<LanguageProvider>(context);
     return Container(
       margin: const EdgeInsets.all(25),
       child: Column(
@@ -39,9 +38,7 @@ class _SettingsState extends State<Settings> {
           ),
           InkWell(
             onTap: () {
-              if (categoryId != null) {
-                showLanguageBottomSheet(categoryId);
-              }
+              showLanguageBottomSheet(categoryId ?? '');
             },
             child: Container(
               padding: const EdgeInsets.all(8),
@@ -53,11 +50,11 @@ class _SettingsState extends State<Settings> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    (provider.locale == 'en'
+                    (languageProvider.locale == 'en'
                         ? 'English'
-                        : provider.locale == 'ar'
+                        : languageProvider.locale == 'ar'
                             ? 'Arabic'
-                            : provider.locale == 'de'
+                            : languageProvider.locale == 'de'
                                 ? 'German'
                                 : 'Italian'),
                     style: Theme.of(context).textTheme.titleMedium,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/api/api_manager.dart';
+import 'package:news_app/model/source_response.dart';
 import 'package:news_app/provider/language_provider.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:provider/provider.dart';
@@ -16,51 +17,58 @@ class LanguageBottomSheet extends StatefulWidget {
 class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<LanguageProvider>(context);
+    var languageProvider = Provider.of<LanguageProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        FutureBuilder(
+        FutureBuilder<SourceResponse>(
             future: ApiManager.getSources(widget.categoryId, 'en'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
-                    provider.changeLocale('en');
+                    languageProvider.changeLocale('en');
+                    Navigator.pop(context);
                   },
-                  child: provider.locale == 'en'
+                  child: languageProvider.locale == 'en'
                       ? getSelectedItemWidget(context, 'English')
                       : getUnSelectedItemWidget(context, 'English'));
             }),
-        FutureBuilder(
+        FutureBuilder<SourceResponse>(
             future: ApiManager.getSources(widget.categoryId, 'ar'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
-                    provider.changeLocale('ar');
+                    languageProvider.changeLocale('ar');
+
+                    Navigator.pop(context);
                   },
-                  child: provider.locale == 'ar'
+                  child: languageProvider.locale == 'ar'
                       ? getSelectedItemWidget(context, 'Arabic')
                       : getUnSelectedItemWidget(context, 'Arabic'));
             }),
-        FutureBuilder(
+        FutureBuilder<SourceResponse>(
             future: ApiManager.getSources(widget.categoryId, 'de'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
-                    provider.changeLocale('de');
+                    languageProvider.changeLocale('de');
+
+                    Navigator.pop(context);
                   },
-                  child: provider.locale == 'de'
+                  child: languageProvider.locale == 'de'
                       ? getSelectedItemWidget(context, 'German')
                       : getUnSelectedItemWidget(context, 'German'));
             }),
-        FutureBuilder(
+        FutureBuilder<SourceResponse>(
             future: ApiManager.getSources(widget.categoryId, 'it'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
-                    provider.changeLocale('it');
+                    languageProvider.changeLocale('it');
+
+                    Navigator.pop(context);
                   },
-                  child: provider.locale == 'it'
+                  child: languageProvider.locale == 'it'
                       ? getSelectedItemWidget(context, 'Italian')
                       : getUnSelectedItemWidget(context, 'Italian'));
             }),
