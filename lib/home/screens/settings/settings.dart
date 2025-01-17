@@ -20,7 +20,6 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     final categoryId = Provider.of<CategoryProvider>(context).categoryId;
 
-    var languageProvider = Provider.of<LanguageProvider>(context);
     return Container(
       margin: const EdgeInsets.all(25),
       child: Column(
@@ -50,11 +49,11 @@ class _SettingsState extends State<Settings> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    (languageProvider.locale == 'en'
+                    (LanguageProvider.locale == 'en'
                         ? 'English'
-                        : languageProvider.locale == 'ar'
+                        : LanguageProvider.locale == 'ar'
                             ? 'Arabic'
-                            : languageProvider.locale == 'de'
+                            : LanguageProvider.locale == 'de'
                                 ? 'German'
                                 : 'Italian'),
                     style: Theme.of(context).textTheme.titleMedium,

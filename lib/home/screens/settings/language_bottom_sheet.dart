@@ -29,7 +29,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                     languageProvider.changeLocale('en');
                     Navigator.pop(context);
                   },
-                  child: languageProvider.locale == 'en'
+                  child: LanguageProvider.locale == 'en'
                       ? getSelectedItemWidget(context, 'English')
                       : getUnSelectedItemWidget(context, 'English'));
             }),
@@ -42,7 +42,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
 
                     Navigator.pop(context);
                   },
-                  child: languageProvider.locale == 'ar'
+                  child: LanguageProvider.locale == 'ar'
                       ? getSelectedItemWidget(context, 'Arabic')
                       : getUnSelectedItemWidget(context, 'Arabic'));
             }),
@@ -55,7 +55,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
 
                     Navigator.pop(context);
                   },
-                  child: languageProvider.locale == 'de'
+                  child: LanguageProvider.locale == 'de'
                       ? getSelectedItemWidget(context, 'German')
                       : getUnSelectedItemWidget(context, 'German'));
             }),
@@ -68,7 +68,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
 
                     Navigator.pop(context);
                   },
-                  child: languageProvider.locale == 'it'
+                  child: LanguageProvider.locale == 'it'
                       ? getSelectedItemWidget(context, 'Italian')
                       : getUnSelectedItemWidget(context, 'Italian'));
             }),

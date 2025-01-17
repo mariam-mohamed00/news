@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:news_app/api/api_manager.dart';
+import 'package:news_app/home/news/news_container_view_model.dart';
 import 'package:news_app/model/news_response.dart';
 import 'package:news_app/model/source_response.dart';
 import 'package:news_app/my_theme.dart';
@@ -19,6 +20,8 @@ class NewsContainer extends StatefulWidget {
 }
 
 class _NewsContainerState extends State<NewsContainer> {
+  NewsContainerViewModel viewModel = NewsContainerViewModel();
+
   final scrollController = ScrollController();
   int pageNumber = 1;
   List<News> news = [];
@@ -40,63 +43,51 @@ class _NewsContainerState extends State<NewsContainer> {
 
   @override
   Widget build(BuildContext context) {
-    var languageProvider = Provider.of<LanguageProvider>(context);
-
     if (shouldLoadNextPage) {
       ApiManager.getNewsBySourceId(
               sourceId: widget.source.id ?? '',
               pageNumber: ++pageNumber,
-              language: languageProvider.locale)
+              language: LanguageProvider.locale)
           .then((value) {
         news.addAll(value.articlesList ?? []);
       });
       shouldLoadNextPage = false;
       setState(() {});
     }
+    viewModel.getNewsBtSourceId(widget.source.id ?? '');
 
-    return FutureBuilder<NewsResponse>(
-        future: ApiManager.getNewsBySourceId(
-            sourceId: widget.source.id ?? '',
-            language: languageProvider.locale),
-            
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
+    return ChangeNotifierProvider(
+      create: (context) => viewModel,
+      child: Consumer<NewsContainerViewModel>(
+        builder: (context, value, child) {
+          if (viewModel.errMessage != null) {
             return Column(
               children: [
-                Text('${snapshot.error}'),
+                Text(viewModel.errMessage!),
                 ElevatedButton(
                     onPressed: () {
-                      ApiManager.getNewsBySourceId(
-                          sourceId: widget.source.id ?? '',
-                          language: languageProvider.locale);
-                      setState(() {});
+                      viewModel.getNewsBtSourceId(widget.source.id ?? '');
                     },
                     child: const Text('Try again'))
               ],
             );
-          } else if (snapshot.hasData) {
-            var newsList = snapshot.data?.articlesList ?? [];
-            if (news.isEmpty && newsList.isNotEmpty) {
-              news = newsList;
-            } else if (newsList.isNotEmpty &&
-                news.first.title != newsList.first.title) {
-              news = newsList;
-              scrollController.jumpTo(0);
-            }
-            return ListView.builder(
-              controller: scrollController,
-              itemCount: news.length,
-              itemBuilder: (context, index) {
-                return NewsItem(news: news[index]);
-              },
-            );
-          } else {
+          } else if (viewModel.newsList == null) {
             return Center(
                 child: CircularProgressIndicator(
               color: MyTheme.greenColor,
             ));
+          } else {
+            return ListView.builder(
+              controller: scrollController,
+              itemCount: viewModel.newsList!.length,
+              itemBuilder: (context, index) {
+                return NewsItem(news: viewModel.newsList![index]);
+              },
+            );
           }
-        });
+        },
+      ),
+    );
   }
 
   @override
