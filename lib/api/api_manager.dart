@@ -9,7 +9,10 @@ class ApiManager {
       String categoryId, String locale) async {
     // https://newsapi.org/v2/top-headlines/sources?apiKey=API_KEY
     Uri url = Uri.https(ApiConstant.baseUrl, ApiConstant.sourceApi, {
-      'apiKey': '9c1f5339332a42c6a972b8d0dfae0615',
+      /// 9c1f5339332a42c6a972b8d0dfae0615
+      /// 160b37cde254481a8ed739c8867411d1
+      /// 3f0ec4484ce14b35bff1da3de6b55eb3
+      'apiKey': '3f0ec4484ce14b35bff1da3de6b55eb3',
       'category': categoryId,
       'language': locale
     });
@@ -29,7 +32,7 @@ class ApiManager {
     //https://newsapi.org/v2/everything?q=bitcoin&apiKey=9c1f5339332a42c6a972b8d0dfae0615
 
     Uri url = Uri.https(ApiConstant.baseUrl, ApiConstant.newsApi, {
-      'apiKey': '9c1f5339332a42c6a972b8d0dfae0615',
+      'apiKey': '3f0ec4484ce14b35bff1da3de6b55eb3',
       'sources': sourceId,
       'pageSize': '20',
       'page': '$pageNumber',
@@ -47,10 +50,9 @@ class ApiManager {
   }
 
   static Future<NewsResponse> searchNews(String query) async {
-    //https://newsapi.org/v2/everything?q=bitcoin&apiKey=9c1f5339332a42c6a972b8d0dfae0615
 
     Uri url = Uri.https(ApiConstant.baseUrl, ApiConstant.newsApi,
-        {'apiKey': '9c1f5339332a42c6a972b8d0dfae0615', 'q': query});
+        {'apiKey': '3f0ec4484ce14b35bff1da3de6b55eb3', 'q': query});
 
     try {
       var reponse = await http.get(url);

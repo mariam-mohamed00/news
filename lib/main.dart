@@ -20,13 +20,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<LanguageProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: Routes.home,
       onGenerateRoute: AppRouter.generateRoute,
       theme: MyTheme.lightMode,
-      locale: Locale(provider.locale),
+      locale: Locale(LanguageProvider.locale),
       themeMode: ThemeMode.system,
     );
   }
