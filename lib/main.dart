@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/my_bloc_observer.dart';
 import 'package:news_app/provider/category_provider.dart';
 import 'package:news_app/provider/language_provider.dart';
 import 'package:news_app/my_theme.dart';
@@ -7,6 +9,8 @@ import 'package:news_app/routing/routes.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  Bloc.observer = MyBlocObserver();
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => LanguageProvider()),
     ChangeNotifierProvider(
