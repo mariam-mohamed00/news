@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/provider/category_provider.dart';
 import 'package:news_app/provider/language_provider.dart';
-import 'package:news_app/home/screens/settings/language_bottom_sheet.dart';
+import 'package:news_app/home/settings/language_bottom_sheet.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:provider/provider.dart';
 

@@ -5,8 +5,14 @@ import 'package:news_app/model/news_response.dart';
 import 'package:news_app/model/source_response.dart';
 
 class ApiManager {
-  static Future<SourceResponse> getSources(
-      String categoryId, String locale) async {
+  ApiManager._(); // private constructor
+  static ApiManager? _instance; // null , apimanager
+  static ApiManager getInstance() {
+    _instance ??= ApiManager._();
+    return _instance!;
+  }
+
+  Future<SourceResponse> getSources(String categoryId, String locale) async {
     // https://newsapi.org/v2/top-headlines/sources?apiKey=API_KEY
     Uri url = Uri.https(ApiConstant.baseUrl, ApiConstant.sourceApi, {
       /// 9c1f5339332a42c6a972b8d0dfae0615
@@ -25,7 +31,7 @@ class ApiManager {
     }
   }
 
-  static Future<NewsResponse> getNewsBySourceId(
+  Future<NewsResponse> getNewsBySourceId(
       {required String sourceId,
       int pageNumber = 1,
       required String language}) async {
@@ -50,7 +56,6 @@ class ApiManager {
   }
 
   static Future<NewsResponse> searchNews(String query) async {
-
     Uri url = Uri.https(ApiConstant.baseUrl, ApiConstant.newsApi,
         {'apiKey': '3f0ec4484ce14b35bff1da3de6b55eb3', 'q': query});
 

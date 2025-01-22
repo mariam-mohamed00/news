@@ -12,7 +12,7 @@ class LanguageBottomSheet extends StatefulWidget {
 
   @override
   State<LanguageBottomSheet> createState() => _LanguageBottomSheetState();
-}
+} 
 
 class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
   @override
@@ -22,7 +22,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         FutureBuilder<SourceResponse>(
-            future: ApiManager.getSources(widget.categoryId, 'en'),
+            future: ApiManager.getInstance().getSources(widget.categoryId, 'en'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
@@ -34,7 +34,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                       : getUnSelectedItemWidget(context, 'English'));
             }),
         FutureBuilder<SourceResponse>(
-            future: ApiManager.getSources(widget.categoryId, 'ar'),
+            future: ApiManager.getInstance().getSources(widget.categoryId, 'ar'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
@@ -47,7 +47,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                       : getUnSelectedItemWidget(context, 'Arabic'));
             }),
         FutureBuilder<SourceResponse>(
-            future: ApiManager.getSources(widget.categoryId, 'de'),
+            future: ApiManager.getInstance().getSources(widget.categoryId, 'de'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
@@ -60,7 +60,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                       : getUnSelectedItemWidget(context, 'German'));
             }),
         FutureBuilder<SourceResponse>(
-            future: ApiManager.getSources(widget.categoryId, 'it'),
+            future: ApiManager.getInstance().getSources(widget.categoryId, 'it'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {

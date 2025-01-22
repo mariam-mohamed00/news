@@ -1,20 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/api/api_manager.dart';
 import 'package:news_app/home/category/cubit/states.dart';
-import 'package:news_app/provider/language_provider.dart';
+import 'package:news_app/repository/source/source_repository_contract.dart';
 
 class CategoryViewModel extends Cubit<SourceStates> {
-  CategoryViewModel() : super(SourceLoadingState(loadingMessage: 'Loading...'));
+   SourceRepositoryContract sourceRepositoryContract;
+
+  CategoryViewModel({required this.sourceRepositoryContract}) : super(SourceLoadingState(loadingMessage: 'Loading...'));
 
   void getSourceByCategoryId(String categoryId) async {
     try {
       emit(SourceLoadingState(loadingMessage: 'Loading...'));
       var response =
-          await ApiManager.getSources(categoryId, LanguageProvider.locale);
-      if (response.status == 'error') {
-        emit(SourceErrorState(errMessage: response.message));
+          await sourceRepositoryContract.getSourceByCategoryId(categoryId);
+      if (response?.status == 'error') {
+        emit(SourceErrorState(errMessage: response!.message));
       }
-      emit(SourceSuccessState(sourceList: response.sourcesList!));
+      emit(SourceSuccessState(sourceList: response!.sourcesList!));
     } catch (e) {
       emit(SourceErrorState(errMessage: e.toString()));
     }

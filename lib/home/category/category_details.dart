@@ -7,6 +7,7 @@ import 'package:news_app/home/category/cubit/states.dart';
 import 'package:news_app/home/tabs/tab_container.dart';
 import 'package:news_app/model/category.dart';
 import 'package:news_app/my_theme.dart';
+import 'package:news_app/repository/source/source_dependency_injection.dart';
 
 class CategoryDetails extends StatefulWidget {
   CategoryDetails({super.key, required this.category});
@@ -17,22 +18,13 @@ class CategoryDetails extends StatefulWidget {
 }
 
 class _CategoryDetailsState extends State<CategoryDetails> {
-  CategoryViewModel viewModel = CategoryViewModel();
+  CategoryViewModel viewModel = CategoryViewModel(sourceRepositoryContract: injectSourceRepository());
 
   @override
   void initState() {
     super.initState();
     viewModel.getSourceByCategoryId(widget.category.id);
   }
-
-  /// MVVM
-  // CategoryDetailsViewModel viewModel = CategoryDetailsViewModel();
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   viewModel.getSourceByCategory(widget.category.id);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryViewModel, SourceStates> /*cubit ,state*/ (
@@ -60,32 +52,5 @@ class _CategoryDetailsState extends State<CategoryDetails> {
         return Container();
       },
     );
-
-    /// MVVM
-    // return ChangeNotifierProvider(
-    //     create: (context) => viewModel,
-    //     child: Consumer<CategoryDetailsViewModel>(
-    //       builder: (context, value, child) {
-    //         if (viewModel.errMessage != null) {
-    //           return Column(
-    //             children: [
-    //               Text(viewModel.errMessage!),
-    //               ElevatedButton(
-    //                   onPressed: () {
-    //                     viewModel.getSourceByCategory(widget.category.id);
-    //                   },
-    //                   child: const Text('Try again'))
-    //             ],
-    //           );
-    //         } else if (viewModel.sourceList == null) {
-    //           return Center(
-    //               child: CircularProgressIndicator(
-    //             color: MyTheme.greenColor,
-    //           ));
-    //         } else {
-    //           return TabContainer(sourceList: viewModel.sourceList!);
-    //         }
-    //       },
-    //     ));
   }
 }
