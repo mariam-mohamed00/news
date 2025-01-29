@@ -23,34 +23,36 @@ class _CategoryDetailsState extends State<CategoryDetails> {
   @override
   void initState() {
     super.initState();
-    viewModel.getSourceByCategoryId(widget.category.id);
+    viewModel.getSourceByCategoryId(widget.category.id, context);
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoryViewModel, SourceStates> /*cubit ,state*/ (
-      bloc: viewModel,
-      builder: (context, state) {
-        if (state is SourceLoadingState) {
-          return Center(
-              child: CircularProgressIndicator(
-            color: MyTheme.greenColor,
-          ));
-        } else if (state is SourceErrorState) {
-          return Column(
-            children: [
-              Text(state.errMessage!),
-              ElevatedButton(
-                  onPressed: () {
-                    viewModel.getSourceByCategoryId(widget.category.id);
-                  },
-                  child: const Text('Try again'))
-            ],
-          );
-        } else if (state is SourceSuccessState) {
-          return TabContainer(sourceList: state.sourceList);
-        }
-        return Container();
-      },
+    return BlocProvider<CategoryViewModel>(
+      create: (context) => viewModel,
+      child: BlocBuilder<CategoryViewModel, SourceStates> /*cubit ,state*/ (
+        builder: (context, state) {
+          if (state is SourceLoadingState) {
+            return Center(
+                child: CircularProgressIndicator(
+              color: MyTheme.greenColor,
+            ));
+          } else if (state is SourceErrorState) {
+            return Column(
+              children: [
+                Text(state.errMessage!),
+                ElevatedButton(
+                    onPressed: () {
+                      viewModel.getSourceByCategoryId(widget.category.id, context);
+                    },
+                    child: const Text('Try again'))
+              ],
+            );
+          } else if (state is SourceSuccessState) {
+            return TabContainer(sourceList: state.sourceList);
+          }
+          return Container();
+        },
+      ),
     );
   }
 }

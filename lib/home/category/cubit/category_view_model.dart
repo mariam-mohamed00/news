@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/home/category/cubit/states.dart';
 import 'package:news_app/repository/source/source_repository_contract.dart';
@@ -7,11 +8,11 @@ class CategoryViewModel extends Cubit<SourceStates> {
 
   CategoryViewModel({required this.sourceRepositoryContract}) : super(SourceLoadingState(loadingMessage: 'Loading...'));
 
-  void getSourceByCategoryId(String categoryId) async {
+  void getSourceByCategoryId(String categoryId, BuildContext context) async {
     try {
       emit(SourceLoadingState(loadingMessage: 'Loading...'));
       var response =
-          await sourceRepositoryContract.getSourceByCategoryId(categoryId);
+          await sourceRepositoryContract.getSourceByCategoryId(categoryId, context);
       if (response?.status == 'error') {
         emit(SourceErrorState(errMessage: response!.message));
       }

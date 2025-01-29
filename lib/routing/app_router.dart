@@ -9,7 +9,8 @@ class AppRouter {
     switch (settings.name) {
       case Routes.home:
         return MaterialPageRoute(
-            builder: (context) => const HomeScreen(), settings: settings);
+            // ignore: prefer_const_constructors
+            builder: (context) => HomeScreen(), settings: settings);
       case Routes.newDetails:
         return MaterialPageRoute(
             builder: (context) => const NewsDetails(), settings: settings);

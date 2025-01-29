@@ -18,7 +18,7 @@ class ApiManager {
       /// 9c1f5339332a42c6a972b8d0dfae0615
       /// 160b37cde254481a8ed739c8867411d1
       /// 3f0ec4484ce14b35bff1da3de6b55eb3
-      'apiKey': '3f0ec4484ce14b35bff1da3de6b55eb3',
+      'apiKey': '9c1f5339332a42c6a972b8d0dfae0615',
       'category': categoryId,
       'language': locale
     });
@@ -38,7 +38,7 @@ class ApiManager {
     //https://newsapi.org/v2/everything?q=bitcoin&apiKey=9c1f5339332a42c6a972b8d0dfae0615
 
     Uri url = Uri.https(ApiConstant.baseUrl, ApiConstant.newsApi, {
-      'apiKey': '3f0ec4484ce14b35bff1da3de6b55eb3',
+      'apiKey': '9c1f5339332a42c6a972b8d0dfae0615',
       'sources': sourceId,
       'pageSize': '20',
       'page': '$pageNumber',
@@ -57,7 +57,7 @@ class ApiManager {
 
   static Future<NewsResponse> searchNews(String query) async {
     Uri url = Uri.https(ApiConstant.baseUrl, ApiConstant.newsApi,
-        {'apiKey': '3f0ec4484ce14b35bff1da3de6b55eb3', 'q': query});
+        {'apiKey': '9c1f5339332a42c6a972b8d0dfae0615', 'q': query});
 
     try {
       var reponse = await http.get(url);

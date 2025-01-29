@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/home/category/category_details.dart';
 import 'package:news_app/home/category/category_fragment.dart';
 import 'package:news_app/home/settings/settings.dart';
@@ -6,8 +7,7 @@ import 'package:news_app/model/category.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:news_app/home/screens/home_drawer.dart';
 import 'package:news_app/home/search/news_search_delegate.dart';
-import 'package:news_app/provider/category_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/home/category/cubit/category_id_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  CategoryIdCubit categoryIdCubit = CategoryIdCubit();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -30,44 +31,48 @@ class _HomeScreenState extends State<HomeScreen> {
             height: double.infinity,
           ),
         ),
-        Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              iconTheme: IconThemeData(color: MyTheme.whiteColor),
-              title: Text(
-                selectedDrawerItem == HomeDrawer.settings
-                    ? 'Settings'
-                    : selectedCategory == null
-                        ? 'News App'
-                        : selectedCategory!.title,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    Icons.search,
-                    size: 30,
-                    color: MyTheme.whiteColor,
-                  ),
-                  onPressed: () {
-                    showSearch(
-                        context: context, delegate: NewsSearchDelegate());
-                  },
+        BlocProvider<CategoryIdCubit>(
+          create: (context) => categoryIdCubit,
+          child: Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                iconTheme: IconThemeData(color: MyTheme.whiteColor),
+                title: Text(
+                  selectedDrawerItem == HomeDrawer.settings
+                      ? 'Settings'
+                      : selectedCategory == null
+                          ? 'News App'
+                          : selectedCategory!.title,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-              ],
-            ),
-            drawer: Drawer(
-              child: HomeDrawer(
-                onDrawerItemClick: onDrawerItemClick,
+                actions: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      size: 30,
+                      color: MyTheme.whiteColor,
+                    ),
+                    onPressed: () {
+                      showSearch(
+                          context: context, delegate: NewsSearchDelegate());
+                    },
+                  ),
+                ],
               ),
-            ),
-            body: selectedDrawerItem == HomeDrawer.settings
-                ? const Settings()
-                : selectedCategory == null
-                    ? CategoryFragment(
-                        onCategoryClick: onCategoryClick,
-                      )
-                    : CategoryDetails(category: selectedCategory!)),
+              drawer: Drawer(
+                child: HomeDrawer(
+                  onDrawerItemClick: onDrawerItemClick,
+                ),
+              ),
+              body: selectedDrawerItem == HomeDrawer.settings
+                  // ignore: prefer_const_constructors
+                  ? Settings()
+                  : selectedCategory == null
+                      ? CategoryFragment(
+                          onCategoryClick: onCategoryClick,
+                        )
+                      : CategoryDetails(category: selectedCategory!)),
+        ),
       ],
     );
   }
@@ -77,8 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void onCategoryClick(Category newSelectedCategory) {
     selectedCategory = newSelectedCategory;
     setState(() {});
-    Provider.of<CategoryProvider>(context, listen: false)
-        .setCategoryId(newSelectedCategory.id);
+    categoryIdCubit.setCategoryId(newSelectedCategory.id);
   }
 
   int selectedDrawerItem = HomeDrawer.categories;

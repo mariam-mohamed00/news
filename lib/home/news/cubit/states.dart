@@ -1,5 +1,3 @@
-import 'package:news_app/model/news_response.dart';
-
 abstract class NewsStates {}
 
 class NewsInitialState extends NewsStates {}
@@ -15,6 +13,5 @@ class NewsErrorState extends NewsStates {
 }
 
 class NewsSuccessState extends NewsStates {
-  List<News> newsList;
-  NewsSuccessState({required this.newsList});
+  NewsSuccessState();
 }
