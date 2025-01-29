@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/api/api_manager.dart';
+import 'package:news_app/home/settings/settings_cubit/language_cubit.dart';
 import 'package:news_app/model/source_response.dart';
-import 'package:news_app/provider/language_provider.dart';
 import 'package:news_app/my_theme.dart';
-import 'package:provider/provider.dart';
 
 class LanguageBottomSheet extends StatefulWidget {
   const LanguageBottomSheet({super.key, required this.categoryId});
@@ -12,63 +12,62 @@ class LanguageBottomSheet extends StatefulWidget {
 
   @override
   State<LanguageBottomSheet> createState() => _LanguageBottomSheetState();
-}
+} 
 
 class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    var languageProvider = Provider.of<LanguageProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         FutureBuilder<SourceResponse>(
-            future: ApiManager.getSources(widget.categoryId, 'en'),
+            future: ApiManager.getInstance().getSources(widget.categoryId, 'en'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
-                    languageProvider.changeLocale('en');
+                   BlocProvider.of<LanguageCubit>(context).changeLanguage('en') ;
                     Navigator.pop(context);
                   },
-                  child: LanguageProvider.locale == 'en'
+                  child: BlocProvider.of<LanguageCubit>(context).currentLanguage == 'en'
                       ? getSelectedItemWidget(context, 'English')
                       : getUnSelectedItemWidget(context, 'English'));
             }),
         FutureBuilder<SourceResponse>(
-            future: ApiManager.getSources(widget.categoryId, 'ar'),
+            future: ApiManager.getInstance().getSources(widget.categoryId, 'ar'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
-                    languageProvider.changeLocale('ar');
+                    BlocProvider.of<LanguageCubit>(context).changeLanguage('ar');
 
                     Navigator.pop(context);
                   },
-                  child: LanguageProvider.locale == 'ar'
+                  child: BlocProvider.of<LanguageCubit>(context).currentLanguage == 'ar'
                       ? getSelectedItemWidget(context, 'Arabic')
                       : getUnSelectedItemWidget(context, 'Arabic'));
             }),
         FutureBuilder<SourceResponse>(
-            future: ApiManager.getSources(widget.categoryId, 'de'),
+            future: ApiManager.getInstance().getSources(widget.categoryId, 'de'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
-                    languageProvider.changeLocale('de');
+                    BlocProvider.of<LanguageCubit>(context).changeLanguage('de');
 
                     Navigator.pop(context);
                   },
-                  child: LanguageProvider.locale == 'de'
+                  child: BlocProvider.of<LanguageCubit>(context).currentLanguage == 'de'
                       ? getSelectedItemWidget(context, 'German')
                       : getUnSelectedItemWidget(context, 'German'));
             }),
         FutureBuilder<SourceResponse>(
-            future: ApiManager.getSources(widget.categoryId, 'it'),
+            future: ApiManager.getInstance().getSources(widget.categoryId, 'it'),
             builder: (context, snapshot) {
               return InkWell(
                   onTap: () {
-                    languageProvider.changeLocale('it');
+                    BlocProvider.of<LanguageCubit>(context).changeLanguage('it');
 
                     Navigator.pop(context);
                   },
-                  child: LanguageProvider.locale == 'it'
+                  child: BlocProvider.of<LanguageCubit>(context).currentLanguage == 'it'
                       ? getSelectedItemWidget(context, 'Italian')
                       : getUnSelectedItemWidget(context, 'Italian'));
             }),
