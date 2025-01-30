@@ -24,8 +24,15 @@ class _SettingsState extends State<Settings> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            BlocProvider.of<LanguageCubit>(context).currentLanguage == 'en' ?
-            'Language' : 'اللغة',
+            BlocProvider.of<LanguageCubit>(context).currentLanguage == 'en'
+                ? 'Language'
+                : BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                        'ar'
+                    ? 'اللغة'
+                    : BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                            'de'
+                        ? 'Sprache'
+                        : 'La lingua',
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: MyTheme.blackColor,
                   fontWeight: FontWeight.bold,

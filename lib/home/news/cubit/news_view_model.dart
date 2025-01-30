@@ -11,8 +11,14 @@ class NewsViewModel extends Cubit<NewsStates> {
   NewsViewModel({required this.newsRepositoryContract})
       : super(NewsInitialState());
 
-  void getNewsBySourceId(
-      String sourceId, BuildContext context, int pageNumber) async {
+  void getNewsBySourceId(String sourceId, BuildContext context,
+      {bool pagination = false}) async {
+    if (pagination) {
+      pageNumber = ++pageNumber;
+    }
+    if (!pagination) {
+      pageNumber = 1;
+    }
     try {
       emit(NewsLoadingState(loadingMessage: 'Loading...'));
 
@@ -21,7 +27,11 @@ class NewsViewModel extends Cubit<NewsStates> {
       if (response?.status == 'error') {
         emit(NewsErrorState(errMessage: response!.message));
       } else {
-        newsList.addAll(response!.articlesList!);
+        if (pagination == true) {
+          newsList.addAll(response!.articlesList!);
+        } else if (pagination == false) {
+          newsList = response!.articlesList!;
+        }
         emit(NewsSuccessState());
       }
     } catch (e) {

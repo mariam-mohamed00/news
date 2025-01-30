@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/home/settings/settings_cubit/language_cubit.dart';
 import 'package:news_app/my_theme.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -19,7 +21,15 @@ class HomeDrawer extends StatelessWidget {
           padding: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height * 0.1),
           child: Text(
-            'NEWS APP!',
+            BlocProvider.of<LanguageCubit>(context).currentLanguage == 'en'
+                ? 'News App!'
+                : BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                        'ar'
+                    ? 'الأخبار'
+                    : BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                            'de'
+                        ? 'Nachrichten App'
+                        : 'App Di Notizie',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleLarge,
           ),
@@ -40,7 +50,18 @@ class HomeDrawer extends StatelessWidget {
                   width: 20,
                 ),
                 Text(
-                  'Categories',
+                  BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                          'en'
+                      ? 'Categories'
+                      : BlocProvider.of<LanguageCubit>(context)
+                                  .currentLanguage ==
+                              'ar'
+                          ? 'الفئات'
+                          : BlocProvider.of<LanguageCubit>(context)
+                                      .currentLanguage ==
+                                  'de'
+                              ? 'Kategorien'
+                              : 'Categorie',
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
@@ -63,7 +84,18 @@ class HomeDrawer extends StatelessWidget {
                   width: 20,
                 ),
                 Text(
-                  'Setings',
+                  BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                          'en'
+                      ? 'Settings'
+                      : BlocProvider.of<LanguageCubit>(context)
+                                  .currentLanguage ==
+                              'ar'
+                          ? 'الاعدادات'
+                          : BlocProvider.of<LanguageCubit>(context)
+                                      .currentLanguage ==
+                                  'de'
+                              ? 'Einstellungen'
+                              : 'Impostazioni',
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!

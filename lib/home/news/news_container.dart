@@ -28,8 +28,8 @@ class _NewsContainerState extends State<NewsContainer> {
       if (viewModel.scrollController.position.atEdge) {
         bool isTop = viewModel.scrollController.position.pixels == 0;
         if (!isTop) {
-          viewModel.getNewsBySourceId(
-              widget.source.id ?? '', context, ++viewModel.pageNumber);
+          viewModel.getNewsBySourceId(widget.source.id ?? '', context,
+              pagination: true);
         }
       }
     });
@@ -41,7 +41,9 @@ class _NewsContainerState extends State<NewsContainer> {
     viewModel.pageNumber = 1;
 
     viewModel.getNewsBySourceId(
-        widget.source.id ?? '', context, viewModel.pageNumber);
+      widget.source.id ?? '',
+      context
+    );
 
     return BlocProvider<NewsViewModel>(
       create: (context) => viewModel,
@@ -66,8 +68,8 @@ class _NewsContainerState extends State<NewsContainer> {
                 Text(state.errMessage!),
                 ElevatedButton(
                     onPressed: () {
-                      viewModel.getNewsBySourceId(widget.source.id ?? '',
-                          context, viewModel.pageNumber);
+                      viewModel.getNewsBySourceId(
+                          widget.source.id ?? '', context);
                     },
                     child: const Text('Try again'))
               ],

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/home/category/category_details.dart';
 import 'package:news_app/home/category/category_fragment.dart';
 import 'package:news_app/home/settings/settings.dart';
+import 'package:news_app/home/settings/settings_cubit/language_cubit.dart';
 import 'package:news_app/model/category.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:news_app/home/screens/home_drawer.dart';
@@ -39,9 +40,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 iconTheme: IconThemeData(color: MyTheme.whiteColor),
                 title: Text(
                   selectedDrawerItem == HomeDrawer.settings
-                      ? 'Settings'
+                      ? BlocProvider.of<LanguageCubit>(context)
+                                  .currentLanguage ==
+                              'en'
+                          ? 'Settings'
+                          : BlocProvider.of<LanguageCubit>(context)
+                                      .currentLanguage ==
+                                  'ar'
+                              ? 'الاعدادات'
+                              : BlocProvider.of<LanguageCubit>(context)
+                                          .currentLanguage ==
+                                      'de'
+                                  ? 'Einstellungen'
+                                  : 'Impostazioni'
                       : selectedCategory == null
-                          ? 'News App'
+                          ? BlocProvider.of<LanguageCubit>(context)
+                                      .currentLanguage ==
+                                  'en'
+                              ? 'News App!'
+                              : BlocProvider.of<LanguageCubit>(context)
+                                          .currentLanguage ==
+                                      'ar'
+                                  ? 'الأخبار'
+                                  : BlocProvider.of<LanguageCubit>(context)
+                                              .currentLanguage ==
+                                          'de'
+                                      ? 'Nachrichten App'
+                                      : 'App Di Notizie'
                           : selectedCategory!.title,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),

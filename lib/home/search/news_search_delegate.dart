@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/api/api_manager.dart';
+import 'package:news_app/home/settings/settings_cubit/language_cubit.dart';
 import 'package:news_app/model/news_response.dart';
 import 'package:news_app/my_theme.dart';
 import 'package:news_app/home/news/news_item.dart';
@@ -43,8 +45,16 @@ class NewsSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     if (query.isEmpty) {
-      return const Center(
-        child: Text('Results will appear here'),
+      return Center(
+        child: Text(BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                'en'
+            ? 'Results will appear here'
+            : BlocProvider.of<LanguageCubit>(context).currentLanguage == 'ar'
+                ? 'النتائج سوف تظهر هنا'
+                : BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                        'de'
+                    ? 'Wählen Sie die Kategorie aus, die Sie interessiert'
+                    : 'Scegli la categoria di interesse'),
       );
     }
     return FutureBuilder<NewsResponse>(

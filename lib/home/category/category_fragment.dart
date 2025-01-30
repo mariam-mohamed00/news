@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/home/category/category_item.dart';
+import 'package:news_app/home/settings/settings_cubit/language_cubit.dart';
 import 'package:news_app/model/category.dart';
 import 'package:news_app/my_theme.dart';
 
@@ -24,7 +26,15 @@ class _CategoryFragmentState extends State<CategoryFragment> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Pick your category \nof interest',
+            BlocProvider.of<LanguageCubit>(context).currentLanguage == 'en'
+                ? 'Pick your category \nof interest'
+                : BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                        'ar'
+                    ? 'اختر فئة اهتمامك'
+                    : BlocProvider.of<LanguageCubit>(context).currentLanguage ==
+                            'de'
+                        ? 'Wählen Sie die Kategorie aus, die Sie interessiert'
+                        : 'scegli la categoria di interesse',
             style: Theme.of(context)
                 .textTheme
                 .titleMedium!
